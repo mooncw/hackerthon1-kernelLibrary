@@ -5,8 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 
-@Entity @Builder
+@Entity @Builder @RequiredArgsConstructor
 public class Book {
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>페이지 제목</title>
 </head>
 <body>
-$END$
+<div class="container">
+    <!-- 상단 왼쪽의 Back 버튼 -->
+    <a href="#" class="btn btn-primary">Back</a>
+
+    <!-- 가운데에서 약간 윗쪽에 검색 창 -->
+    <div class="mt-3">
+        <input type="text" class="form-control" placeholder="검색어를 입력하세요">
+    </div>
+
+    <!-- 책 6권이 한줄에 3권씩 2줄에 걸쳐 보이도록 -->
+    <div class="row mt-3">
+        <div class="col-md-4 mb-3">
+            <!-- 책 카드 예시 -->
+            <div class="card">
+                <img src="책이미지URL" class="card-img-top" alt="책 이미지">
+                <div class="card-body">
+                    <h5 class="card-title">책 제목</h5>
+                    <p class="card-text">책 설명 또는 정보</p>
+                    <a href="#" class="btn btn-primary">자세히 보기</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 더 많은 책 카드들을 여기에 추가 -->
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

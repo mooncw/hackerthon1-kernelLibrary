@@ -12,7 +12,7 @@ public class AddBookRequest {
 
     public Book toEntity(){
         return Book.builder()
-                .name(name).isbn(isbn)
+                .name(name).isbn(isbn).rentalStatus(true)
                 .build();
     }
 }

@@ -14,6 +14,12 @@ public class Book {
 
     private Long isbn;
 
+    // false = 대출가능
+    private Boolean rentalStatus;
+
     //-- 비즈니스 로직 --//
+    public void changeRentalStatus(){
+        this.rentalStatus = !rentalStatus;
+    }
 
 }

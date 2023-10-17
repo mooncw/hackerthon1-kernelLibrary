@@ -1,12 +1,9 @@
 package kernel.hackerthon.library.repository;
 
-
-
 import jakarta.persistence.Id;
+import kernel.hackerthon.library.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.awt.print.Book;
+public interface UserRepository extends JpaRepository<User, Id> {
 
-
-public interface BookRepository extends JpaRepository<Book, Id> {
 }

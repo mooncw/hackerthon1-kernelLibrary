@@ -1,6 +1,5 @@
 package kernel.hackerthon.library.controller;
 
-
 import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.repository.BookRepository;
 import kernel.hackerthon.library.service.BookService;
@@ -20,23 +19,30 @@ import java.util.Optional;
 @Controller
 public class BookController {
     private final BookService bookService;
-    private final BookRepository bookRepository;
 
+    @PostMapping
+    private ResponseEntity<Book> addBook(@RequestBody AddBookRequest addBookRequest){
+        Book savedBook = bookService.save(addBookRequest);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(savedBook);
+    }
 
     // (메인 서고화면)서고에 있는 모든 책 get 하기
     // 회수한 책은 제외하도록 처리해야
     @GetMapping
     public String books(ModelMap map) {
         List<Book> books = bookService.getBooks();
+      
+    public String books(ModelMap map){
+        List<Book> books =bookService.getBooks();
         map.addAttribute("books", books);
 
         return "books/index";
     }
 
-
     //(메인 화면에서 책 한권 클릭시)책 한권 get - 책 상세페이지
     @GetMapping("/{bookId}")
-    public String book(@PathVariable Long bookId, ModelMap map) {
+    public String book(@PathVariable Long bookId, ModelMap map){
         Optional<Book> book = bookService.getBook(bookId);
 
         map.addAttribute("book", book);
@@ -50,10 +56,24 @@ public class BookController {
             @PathVariable Long bookId
 //            @AuthenticationPrincipal BoardPrincipal boardPrincipal  스프링시큐리티에서 유저 정보 처리..?
             // 현재는 유저 정보 바로 올리기
-    ) {
-//        bookService.borrowBook(bookId, "db에 있는 username");
 
+    ){
+//        bookService.borrowBook(bookId, "db에 있는 username");
         return "redirect:/books";
     }
-
 }
+
+
+//@GetMapping("/addBook")
+//public String addBookForm(Model model) {
+//    model.addAttribute("addBookRequest", new AddBookRequest());
+//    model.addAttribute("books", bookService.getAllBooks());
+//    return "addBook";
+//}
+//
+//    @PostMapping("/api/v1/books")
+//    public String addBook(@ModelAttribute AddBookRequest addBookRequest) {
+//        bookService.save(addBookRequest);
+//        return "redirect:/addBook";
+//    }
+

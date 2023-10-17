@@ -2,6 +2,7 @@ package kernel.hackerthon.library.service;
 
 import kernel.hackerthon.library.domain.Book;
 
+import kernel.hackerthon.library.dto.AddBookRequest;
 import kernel.hackerthon.library.repository.BookRepository;
 import kernel.hackerthon.library.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

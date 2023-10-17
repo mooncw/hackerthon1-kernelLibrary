@@ -19,8 +19,9 @@ import java.util.Optional;
 @Controller
 public class BookController {
     private final BookService bookService;
-
-    @PostMapping
+    private final BookRepository bookRepository;
+  
+    @PostMapping("api/v1/books")
     private ResponseEntity<Book> addBook(@RequestBody AddBookRequest addBookRequest){
         Book savedBook = bookService.save(addBookRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -30,15 +31,13 @@ public class BookController {
     // (메인 서고화면)서고에 있는 모든 책 get 하기
     // 회수한 책은 제외하도록 처리해야
     @GetMapping
-    public String books(ModelMap map) {
-        List<Book> books = bookService.getBooks();
-      
     public String books(ModelMap map){
         List<Book> books =bookService.getBooks();
         map.addAttribute("books", books);
 
         return "books/index";
     }
+
 
     //(메인 화면에서 책 한권 클릭시)책 한권 get - 책 상세페이지
     @GetMapping("/{bookId}")
@@ -56,12 +55,11 @@ public class BookController {
             @PathVariable Long bookId
 //            @AuthenticationPrincipal BoardPrincipal boardPrincipal  스프링시큐리티에서 유저 정보 처리..?
             // 현재는 유저 정보 바로 올리기
-
     ){
 //        bookService.borrowBook(bookId, "db에 있는 username");
+
         return "redirect:/books";
     }
-}
 
 
 //@GetMapping("/addBook")
@@ -76,4 +74,3 @@ public class BookController {
 //        bookService.save(addBookRequest);
 //        return "redirect:/addBook";
 //    }
-

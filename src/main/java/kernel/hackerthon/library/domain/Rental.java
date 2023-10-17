@@ -5,6 +5,9 @@ import lombok.*;
 
 import java.util.Date;
 
+
+
+@NoArgsConstructor
 @Getter @Setter
 @AllArgsConstructor
 @Builder
@@ -14,24 +17,21 @@ public class Rental {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long loanId;
 
-    // 유저 정보를 id로 연결
-    @ManyToOne(optional = false) @JoinColumn(name = "id") private User user;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id") // 'user' 테이블과 연결된 외래 키 (user 엔티티의 기본 키)
+    private User user;
 
-    // 북 정보를 id로 연결
-    @ManyToOne(optional = false) @JoinColumn(name = "id") private Book book;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "book_id") // 'book' 테이블과 연결된 외래 키 (book 엔티티의 기본 키)
+    private Book book;
 
-
-    @Column(name ="loan_date")
+    @Column(name = "loan_date")
     private Date loanDate;
 
-    @Column(name ="return_date")
+    @Column(name = "return_date")
     private Date returnDate;
 
     @Column(name = "loan_status")
     private Boolean loanStatus;
 
-
-    public Rental() {
-
-    }
 }

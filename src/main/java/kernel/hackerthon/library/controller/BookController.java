@@ -3,6 +3,7 @@ package kernel.hackerthon.library.controller;
 import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.dto.AddBookRequest;
 import kernel.hackerthon.library.repository.BookRepository;
+
 import kernel.hackerthon.library.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,8 +20,7 @@ import java.util.Optional;
 @Controller
 public class BookController {
     private final BookService bookService;
-
-    @PostMapping
+    @PostMapping("api/v1/books")
     private ResponseEntity<Book> addBook(@RequestBody AddBookRequest addBookRequest){
         Book savedBook = bookService.save(addBookRequest);
         return ResponseEntity.status(HttpStatus.CREATED)
@@ -39,6 +39,7 @@ public class BookController {
         return "books/index";
     }
 
+
     //(메인 화면에서 책 한권 클릭시)책 한권 get - 책 상세페이지
     @GetMapping("/{bookId}")
     public String book(@PathVariable Long bookId, ModelMap map) {
@@ -54,14 +55,16 @@ public class BookController {
     public String borrowBook(
             @PathVariable Long bookId,
             @PathVariable Long userId
-//            @AuthenticationPrincipal BoardPrincipal boardPrincipal  스프링시큐리티에서 유저 정보 처리..?
-    ) {
+//          @AuthenticationPrincipal BoardPrincipal boardPrincipal  스프링시큐리티에서 유저 정보 처리..?
+            // 현재는 유저 정보 바로 올리기
+    )
+    {
 //        bookService.borrowBook(bookId, userId);
 
         return "redirect:/books";
     }
 }
-            // 현재는 유저 정보 바로 올리기
+         
 
 
 
@@ -77,4 +80,3 @@ public class BookController {
 //        bookService.save(addBookRequest);
 //        return "redirect:/addBook";
 //    }
-

@@ -4,7 +4,6 @@ import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.domain.Rental;
 import kernel.hackerthon.library.domain.User;
 
-
 import kernel.hackerthon.library.dto.AddBookRequest;
 import kernel.hackerthon.library.repository.BookRepository;
 import kernel.hackerthon.library.repository.RentalRepository;
@@ -49,7 +48,6 @@ public class BookService {
 //        Optional<User> user = userRepository.findById(userId);
 //        rentalRepository.save(Rental.builder().user(user.map(User::getUserId)).book(bookRepository.findById(bookId)).loanDate(todayDate).returnDate(returnDate));
 //    }
-
 }
 
 

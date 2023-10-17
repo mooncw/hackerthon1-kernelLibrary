@@ -6,6 +6,9 @@ import kernel.hackerthon.library.repository.BookRepository;
 import kernel.hackerthon.library.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,10 +21,11 @@ public class BookService {
 
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
-  
+
     public Book save(AddBookRequest request){
         return bookRepository.save(request.toEntity());
     }
+
     // 책 전체 가져오는
     public List<Book> getBooks(){
         return bookRepository.findAll();
@@ -32,4 +36,3 @@ public class BookService {
     }
 
 }
-

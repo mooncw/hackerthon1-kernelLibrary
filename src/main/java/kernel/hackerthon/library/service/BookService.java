@@ -41,13 +41,24 @@ public class BookService {
         return bookRepository.findById(bookId);
     }
 
-//    public void borrowBook(Long bookId, Long userId){
-//        bookRepository.findById(bookId).orElseThrow().changeRentalStatus();
-//        Date todayDate = new Date(Calendar.getInstance().getTimeInMillis());
-//        Date returnDate = new Date(Calendar.getInstance().getTimeInMillis()+1);
-//        Optional<User> user = userRepository.findById(userId);
-//        rentalRepository.save(Rental.builder().user(user.map(User::getUserId)).book(bookRepository.findById(bookId)).loanDate(todayDate).returnDate(returnDate));
-//    }
+    public void borrowBook(Long bookId, Long userId){
+        bookRepository.findById(bookId).orElseThrow().changeRentalStatus();
+
+        Date todayDate = new Date(Calendar.getInstance().getTimeInMillis());
+        Date returnDate = new Date(Calendar.getInstance().getTimeInMillis()+1);
+        User user = userRepository.findById(userId).orElseThrow();
+        Book book = bookRepository.findById(bookId).orElseThrow();
+
+        Rental rental = Rental.builder()
+                .user(user)
+                .book(book)
+                .loanDate(todayDate)
+                .returnDate(returnDate)
+                .build();
+        rentalRepository.save(rental);
+
+    }
+
 }
 
 

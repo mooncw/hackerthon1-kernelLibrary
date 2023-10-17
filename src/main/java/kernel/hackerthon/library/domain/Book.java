@@ -23,8 +23,11 @@ public class Book {
         this.isbn = isbn;
         this.rentalStatus = rentalStatus;
     }
+    // false = 대출가능
+    private Boolean rentalStatus;
 
     //-- 비즈니스 로직 --//
+  
     // 대출 상태를 토글 하는 메서드 //
     public void changeRentalStatus(){
         this.rentalStatus = !rentalStatus;

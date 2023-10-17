@@ -1,17 +1,16 @@
 package kernel.hackerthon.library.domain;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
-@Getter
-@Setter
+
+
 @NoArgsConstructor
+@Getter @Setter
 @AllArgsConstructor
+@Builder
 @Entity
 public class Rental {
     @Id
@@ -34,4 +33,5 @@ public class Rental {
 
     @Column(name = "loan_status")
     private Boolean loanStatus;
+
 }

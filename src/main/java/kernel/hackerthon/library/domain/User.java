@@ -16,5 +16,12 @@ public class User {
     private String email;
     private String password;
     // business log//
+
+    @Builder
+    public User(String userName,String email,String password){
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+    }
 }
 

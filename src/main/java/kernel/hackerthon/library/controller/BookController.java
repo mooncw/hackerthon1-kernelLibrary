@@ -20,6 +20,7 @@ import java.util.Optional;
 @Controller
 public class BookController {
     private final BookService bookService;
+
     @PostMapping("api/v1/books")
     private ResponseEntity<Book> addBook(@RequestBody AddBookRequest addBookRequest){
         Book savedBook = bookService.save(addBookRequest);
@@ -36,7 +37,7 @@ public class BookController {
 
         map.addAttribute("books", books);
 
-        return "books/index";
+        return "firstpage";
     }
 
 
@@ -59,7 +60,7 @@ public class BookController {
             // 현재는 유저 정보 바로 올리기
     )
     {
-//        bookService.borrowBook(bookId, userId);
+        bookService.borrowBook(bookId, userId);
 
         return "redirect:/books";
     }

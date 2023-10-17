@@ -16,7 +16,6 @@ public class Book {
 
     private Long isbn;
 
-    private boolean rentalStatus;
     @Builder
     public Book(String name,Long isbn,boolean rentalStatus){
         this.name = name;

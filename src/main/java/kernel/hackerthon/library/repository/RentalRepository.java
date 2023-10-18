@@ -9,5 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface RentalRepository extends JpaRepository<Rental, Long> {
-    Optional<Rental> findByRentalDateIsNotNullAndIdAndUserId(Long rentalId, Long userId);
+    Optional<Rental> findByReturnDateIsNotNullAndIdAndUserId(Long rentalId, Long userId);
 }

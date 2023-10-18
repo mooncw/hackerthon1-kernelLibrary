@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -20,11 +22,9 @@ public class RentalService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long create(RentalRequest rentalRequest) {
-        Book findBook = bookRepository.findById(rentalRequest.getBookId())
-                .orElseThrow(() -> new IllegalArgumentException("책 정보가 없습니다."));
-        User findUser = userRepository.findById(rentalRequest.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    public Long rentalByBook(RentalRequest rentalRequest) {
+        Book findBook = findByBook(rentalRequest.getBookId());
+        User findUser = findByUser(rentalRequest.getUserId());
 
         Rental savedRental = rentalRepository.save(RentalRequest.toEntity(findUser, findBook));
 
@@ -32,4 +32,24 @@ public class RentalService {
 
         return savedRental.getId();
     }
+
+    @Transactional
+    public void returnByBook(RentalRequest rentalRequest){
+        Rental findRental = rentalRepository.findByRentalDateIsNotNullAndIdAndUserId(rentalRequest.getRentalId(), rentalRequest.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("대여정보를 찾을 수 없습니다."));
+        findRental.saveReturnDate();
+
+        Book findBook = findByBook(rentalRequest.getBookId());
+        findBook.returnByBook();
+    }
+
+    private Book findByBook(Long bookId) {
+        return bookRepository.findById(bookId)
+                .orElseThrow(() -> new IllegalArgumentException("책 정보가 없습니다."));
+    }
+    private User findByUser(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    }
+
 }

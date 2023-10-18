@@ -40,23 +40,22 @@ public class BookService {
         return bookRepository.findById(bookId);
     }
 
-    public void borrowBook(Long bookId, Long userId){
-        bookRepository.findById(bookId).orElseThrow().changeRentalStatus();
-
-        LocalDateTime todayDate = LocalDateTime.now();
-        LocalDateTime returnDate = LocalDateTime.now().plusDays(1);
-        User user = userRepository.findById(userId).orElseThrow();
-        Book book = bookRepository.findById(bookId).orElseThrow();
-
-        Rental rental = Rental.builder()
-                .user(user)
-                .book(book)
-                .rentalDate(todayDate)
-                .returnDate(returnDate)
-                .build();
-        rentalRepository.save(rental);
-
-    }
+//    public void borrowBook(Long bookId, Long userId){
+//        bookRepository.findById(bookId).orElseThrow().changeRentalStatus();
+//
+//        LocalDateTime todayDate = LocalDateTime.now();
+//        LocalDateTime returnDate = LocalDateTime.now().plusDays(1);
+//        User user = userRepository.findById(userId).orElseThrow();
+//        Book book = bookRepository.findById(bookId).orElseThrow();
+//
+//        Rental rental = Rental.builder()
+//                .user(user)
+//                .book(book)
+//                .rentalDate(todayDate)
+//                .returnDate(returnDate)
+//                .build();
+//        rentalRepository.save(rental);
+//    }
 
     public void addBook(AddBookRequest addBookRequest) { bookRepository.save(addBookRequest.toEntity());}
 

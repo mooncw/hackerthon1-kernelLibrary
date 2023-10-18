@@ -4,6 +4,7 @@ import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.domain.Rental;
 import kernel.hackerthon.library.domain.User;
 import kernel.hackerthon.library.dto.AddBookRequest;
+import kernel.hackerthon.library.dto.GoogleBooksResponse;
 import kernel.hackerthon.library.repository.BookRepository;
 import kernel.hackerthon.library.repository.RentalRepository;
 import kernel.hackerthon.library.repository.UserRepository;
@@ -11,12 +12,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -38,6 +37,21 @@ public class BookService {
 
     public Optional<Book> getBook(Long bookId){
         return bookRepository.findById(bookId);
+    }
+
+    public GoogleBooksResponse searchBookWithIsbn(Map<Object, Object> map) {
+        String isbn = (String) map.get("isbn");
+        String apiKey = (String) map.get("apiKey");
+
+        String apiUrl = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&key=" + apiKey;
+
+        System.out.println(apiUrl);
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        GoogleBooksResponse response = restTemplate.getForObject(apiUrl, GoogleBooksResponse.class);
+
+        return response;
     }
 
 //    public void borrowBook(Long bookId, Long userId){

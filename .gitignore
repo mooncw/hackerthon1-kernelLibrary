@@ -220,4 +220,7 @@ gradle-app.setting
 # Java heap dump
 *.hprof
 
+### API KEYS ###
+application-API-KEY.properties
+
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle,intellij+all,windows,visualstudiocode,macos

@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -75,6 +76,13 @@ public class BookController {
         System.out.println(addBookRequest.getBookname()); // 여기 null 찍히는 이유
         bookService.addBook(addBookRequest);
         return "redirect:/books";
+    }
+
+    @GetMapping("/{bookId}/return")  // url 예시
+    public String  returnBook(@PathVariable Long bookId, Model model) {
+//        int result = bookService.returnBook(bookId);
+//        model.addAttribute("status", result);
+        return "returnPage";
     }
 }
          

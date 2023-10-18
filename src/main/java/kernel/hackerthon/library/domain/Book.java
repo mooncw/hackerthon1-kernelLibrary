@@ -5,10 +5,12 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
 @Table(name = "book")
 public class Book {
     @Id
@@ -31,9 +33,8 @@ public class Book {
         this.isRental = isRental;
         this.isRecovery = isRecovery;
     }
-  
-    // 대출 상태를 토글 하는 메서드 //
-    public void changeRentalStatus(){
-        this.isRental = !isRental;
+
+    public void rentalByBook() {
+        this.isRental = true;
     }
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long userId;
+    private Long id;
 
     @Column(name = "username", columnDefinition = "varchar", length = 255)
     private String username;
@@ -28,8 +28,8 @@ public class User {
     private List<Rental> rentals = new ArrayList<>();
 
     @Builder
-    public User(Long userId, String username, String email, String password) {
-        this.userId = userId;
+    public User(Long id, String username, String email, String password) {
+        this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;

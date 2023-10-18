@@ -60,7 +60,7 @@ public class BookController {
             // 현재는 유저 정보 바로 올리기
     )
     {
-        bookService.borrowBook(bookId, userId);
+        //bookService.borrowBook(bookId, userId);
 
         return "redirect:/books";
     }

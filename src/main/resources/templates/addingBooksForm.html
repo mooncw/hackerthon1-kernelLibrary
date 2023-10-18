@@ -5,11 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>책 등록</title>
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <script src="https://cdn.jsdelivr.net/npm/quagga"></script>
 </head>
 <body>
     <div>
         <div>
             <h4>책 등록</h4>
+            <button id="barcode_button">바코드로 등록하기</button>
+        </div>
+        <div id="barcode-scanner" style="display: none;">
+            <video id="barcode-video"></video>
         </div>
         <form th:action="@{/books/add}" th:object="${addBookRequest}" method="post">
             <label for="bookname">책명</label>
@@ -18,5 +23,46 @@
             <button type="submit">등록</button>
         </form>
     </div>
+    <script>
+        const barcode_scanner = document.getElementById("barcode-scanner");
+        barcode_scanner.style.display = "none";
+        const barcode_btn = document.getElementById("barcode_button");
+        barcode_btn.addEventListener("click", openBarcodeReader);
+
+        function openBarcodeReader(e) {
+            barcode_scanner.style.display ="block";
+        }
+
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+            const videoElement = document.getElementById("barcode-video");
+            videoElement.srcObject = stream;
+            videoElement.play();
+        });
+
+        Quagga.init({
+            inputStream: {
+                name: "Live",
+                type: "LiveStream",
+                target: document.querySelector('#barcode-scanner video'),
+            },
+            decoder: {
+                readers: ['ean_reader']
+            }
+        }, function (err) {
+            if (err) {
+                console.log(err);
+                return
+            }
+            console.log("Initialization finished. Ready to start");
+            Quagga.start();
+        });
+
+
+        Quagga.onDetected(data => {
+            const code = data.codeResult.code;
+            alert("스캔된 데이터: " + code);
+        });
+
+    </script>
 </body>
 </html>

@@ -57,6 +57,8 @@ public class BookService {
 
     }
 
+    public void addBook(AddBookRequest addBookRequest) { bookRepository.save(addBookRequest.toEntity());}
+
 }
 
 

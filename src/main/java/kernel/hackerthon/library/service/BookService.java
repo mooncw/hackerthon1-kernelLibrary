@@ -59,31 +59,6 @@ public class BookService {
 
     public void addBook(AddBookRequest addBookRequest) { bookRepository.save(addBookRequest.toEntity());}
 
-
-    // 책 반납하기
-    @Transactional
-    public int returnBook(Long bookId){
-        Optional<Book> book = bookRepository.findById(bookId);
-        if (book.isPresent()) {
-            Book bookEntity = book.get();
-            Long id = bookEntity.getId();
-            Optional<Rental> rental = rentalRepository.findById(id);
-            if (rental.isPresent()) {
-                bookEntity.returnByBook();
-                Rental rentalEntity = rental.get();
-                rentalEntity.inputReturnDate();
-                // 변경 사항을 저장
-                bookRepository.save(bookEntity);
-                rentalRepository.save(rentalEntity);
-                return 0;    // 정상적으로 처리되면 0 출력
-            } else {
-                return 1;    // Rental엔티티에 문제가 생긴 경우 1 출력
-            }
-        } else {
-            return 2;        // Book엔티티에 문제가 생긴 경우 2 출력
-        }
-
-    }
 }
 
 

@@ -11,13 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @RequestMapping("/books")
-@Controller
+@RestController
 public class BookController {
     private final BookService bookService;
 
@@ -27,7 +28,6 @@ public class BookController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(savedBook);
     }
-
 
     // (메인 서고화면)서고에 있는 모든 책 get 하기
     // 회수한 책은 제외하도록 처리해야
@@ -64,6 +64,9 @@ public class BookController {
 
         return "redirect:/books";
     }
+
+    @GetMapping("/add")
+    public ModelAndView showAddBookForm(AddBookRequest addBookRequest) { return new ModelAndView("addingBooksForm"); }
 }
          
 

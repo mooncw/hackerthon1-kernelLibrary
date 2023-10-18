@@ -69,7 +69,7 @@ public class BookService {
             Long id = bookEntity.getId();
             Optional<Rental> rental = rentalRepository.findById(id);
             if (rental.isPresent()) {
-                bookEntity.changeRentalStatus();
+                bookEntity.returnByBook();
                 Rental rentalEntity = rental.get();
                 rentalEntity.inputReturnDate();
                 // 변경 사항을 저장

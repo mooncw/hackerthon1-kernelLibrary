@@ -37,4 +37,8 @@ public class Book {
     public void rentalByBook() {
         this.isRental = true;
     }
+
+    public void returnByBook() {
+        this.isRental = false;
+    }
 }

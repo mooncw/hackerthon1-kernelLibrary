@@ -44,7 +44,7 @@ public class Rental {
         this.returnDate = returnDate;
     }
 
-    public void inputReturnDate() {
+    public void saveReturnDate() {
         this.returnDate = LocalDateTime.now();
     }
 }

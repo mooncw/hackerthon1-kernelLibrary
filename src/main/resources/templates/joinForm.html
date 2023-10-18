@@ -6,11 +6,11 @@
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
 </head>
 <body>
-  <div>
-    <div>
-      <h4>회원가입</h4>
-    </div>
+<div>
     <form th:action="@{/user/join}" th:object="${joinRequest}" method="post">
+        <div>
+            <h1>회원가입</h1>
+        </div>
         <label for="username">이름</label>
         <input type="text" id="username" name="username" th:field="*{username}" required>
         <br>
@@ -23,23 +23,36 @@
         <label for="password_c">비밀번호 확인</label>
         <input type="password" id="password_c" name="password_c" required>
         <br>
-        <button id="submit_btn" type="submit">회원가입</button>
+        <button id="submit_btn" type="submit" disabled>회원가입</button> <!-- Initially disabled -->
+        <br>
+        <span>모든 유효성 검사가 만족해야 회원가입 버튼이 활성화 됩니다.</span>
     </form>
-  </div>
-  <script>
-      const password = document.getElementById("password");
-      const password_check = document.getElementById("password_c");
-      const submit_btn = document.getElementById("submit_btn");
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Function to enable/disable the submit button based on password match and empty fields
+        function checkForm() {
+            const username = $('#username').val();
+            const email = $('#email').val();
+            const password = $('#password').val();
+            const passwordCheck = $('#password_c').val();
 
-      password.addEventListener("keyup", checkPassword);
-      password_check.addEventListener("keyup", checkPassword);
+            const isEmpty = !username || !email || !password || !passwordCheck;
+            const passwordsMatch = password === passwordCheck;
 
-      // function checkPassword(e) {
-      //  submit_btn.disabled = "true";
-      //  if(password.value !== "" && password.value === password_check.value) {
-      //      submit_btn.disabled = "false";
-      //  }
-      //}
-  </script>
+            $('#submit_btn').prop('disabled', isEmpty || !passwordsMatch);
+        }
+
+        $('#username, #email, #password, #password_c').keyup(checkForm);
+
+        checkForm();
+    });
+</script>
 </body>
 </html>
+
+
+
+
+

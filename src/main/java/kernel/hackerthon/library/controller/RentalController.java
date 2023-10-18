@@ -18,8 +18,14 @@ public class RentalController {
     }
 
     @PostMapping("/api/v1/rentals")
-    public String createRental(RentalRequest rentalRequest) {
-        rentalService.create(rentalRequest);
+    public String rentalByBook(RentalRequest rentalRequest) {
+        rentalService.rentalByBook(rentalRequest);
+        return "redirect:/books";
+    }
+
+    @PostMapping("/api/v1/returns")
+    public String returnByBook(RentalRequest rentalRequest) {
+        rentalService.returnByBook(rentalRequest);
         return "redirect:/books";
     }
 }

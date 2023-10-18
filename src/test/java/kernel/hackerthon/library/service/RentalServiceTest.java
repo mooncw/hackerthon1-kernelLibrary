@@ -27,10 +27,10 @@ class RentalServiceTest {
         // given
         User savedUser = userRepository.save(new User(null, null, null, null));
         Book savedBook = bookRepository.save(new Book(null, null, null, null));
-        RentalRequest rentalRequest = new RentalRequest(savedUser.getUserId(), savedBook.getId());
+        RentalRequest rentalRequest = new RentalRequest(savedUser.getId(), savedBook.getId());
 
         // when
-        Long savedRentalId = rentalService.create(rentalRequest);
+        Long savedRentalId = rentalService.rentalByBook(rentalRequest);
 
         // then
         assertThat(savedRentalId).isNotNull();

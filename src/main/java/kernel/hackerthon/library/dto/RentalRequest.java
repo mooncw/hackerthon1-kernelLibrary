@@ -15,6 +15,7 @@ import lombok.Setter;
 public class RentalRequest {
     private Long userId;
     private Long bookId;
+    private Long rentalId;
 
     public static Rental toEntity(User user, Book book) {
         return Rental.builder()

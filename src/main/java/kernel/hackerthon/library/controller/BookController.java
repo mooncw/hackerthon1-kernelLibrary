@@ -87,7 +87,7 @@ public class BookController {
     @GetMapping("/{bookId}/return")  // url 예시
     public String  returnBook(@PathVariable Long bookId, Model model) {
         Optional<Book> book = bookService.getBook(bookId);
-        model.addAttribute("book", book);
+        model.addAttribute("book", book.get());
         return "returnPage";
     }
 }

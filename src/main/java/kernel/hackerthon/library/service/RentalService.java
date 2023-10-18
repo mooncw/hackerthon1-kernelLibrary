@@ -1,5 +1,6 @@
 package kernel.hackerthon.library.service;
 
+import jakarta.servlet.http.HttpSession;
 import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.domain.Rental;
 import kernel.hackerthon.library.domain.User;
@@ -20,9 +21,9 @@ public class RentalService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long rentalByBook(RentalRequest rentalRequest) {
+    public Long rentalByBook(RentalRequest rentalRequest, HttpSession httpSession) {
         Book findBook = findByBook(rentalRequest.getBookId());
-        User findUser = findByUser(rentalRequest.getUserId());
+        User findUser = findByUser((Long) httpSession.getAttribute("loginUser"));
 
         Rental savedRental = rentalRepository.save(RentalRequest.toEntity(findUser, findBook));
 
@@ -32,9 +33,9 @@ public class RentalService {
     }
 
     @Transactional
-    public void returnByBook(RentalRequest rentalRequest){
-        Rental findRental = rentalRepository.findByRentalDateIsNotNullAndIdAndUserId(rentalRequest.getRentalId(), rentalRequest.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("대여정보를 찾을 수 없습니다."));
+    public void returnByBook(RentalRequest rentalRequest, HttpSession httpSession){
+        Rental findRental = rentalRepository.findByReturnDateIsNotNullAndIdAndUserId(rentalRequest.getRentalId(), (Long)httpSession.getAttribute("loginUser"))
+                .orElseThrow(() -> new IllegalArgumentException("대여 정보를 찾을 수 없습니다."));
         findRental.saveReturnDate();
 
         Book findBook = findByBook(rentalRequest.getBookId());

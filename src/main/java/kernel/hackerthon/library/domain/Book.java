@@ -1,29 +1,29 @@
 package kernel.hackerthon.library.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Entity  @RequiredArgsConstructor
+@Entity
+@Getter
+//@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RequiredArgsConstructor
 public class Book {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(name = "name", columnDefinition = "varchar", length = 255)
     private String name;
-
+    @Column(name = "isbn", columnDefinition = "varchar", length = 255)
     private Long isbn;
+    // false = 대출가능
+    private Boolean rentalStatus;
 
     @Builder
-    public Book(String name,Long isbn,boolean rentalStatus){
+    public Book(String name, Long isbn, boolean rentalStatus){
         this.name = name;
         this.isbn = isbn;
         this.rentalStatus = rentalStatus;
     }
-    // false = 대출가능
-    private Boolean rentalStatus;
 
     //-- 비즈니스 로직 --//
   

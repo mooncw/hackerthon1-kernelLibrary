@@ -5,14 +5,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor@AllArgsConstructor@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class AddBookRequest {
     private String name;
     private Long isbn;
 
     public Book toEntity(){
         return Book.builder()
-                .name(name).isbn(isbn).rentalStatus(true)
+                .name(name).isRental(true)
                 .build();
     }
 }

@@ -3,17 +3,15 @@ package kernel.hackerthon.library.service;
 import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.domain.Rental;
 import kernel.hackerthon.library.domain.User;
-
 import kernel.hackerthon.library.dto.AddBookRequest;
 import kernel.hackerthon.library.repository.BookRepository;
 import kernel.hackerthon.library.repository.RentalRepository;
 import kernel.hackerthon.library.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -44,15 +42,15 @@ public class BookService {
     public void borrowBook(Long bookId, Long userId){
         bookRepository.findById(bookId).orElseThrow().changeRentalStatus();
 
-        Date todayDate = new Date(Calendar.getInstance().getTimeInMillis());
-        Date returnDate = new Date(Calendar.getInstance().getTimeInMillis()+1);
+        LocalDateTime todayDate = LocalDateTime.now();
+        LocalDateTime returnDate = LocalDateTime.now().plusDays(1);
         User user = userRepository.findById(userId).orElseThrow();
         Book book = bookRepository.findById(bookId).orElseThrow();
 
         Rental rental = Rental.builder()
                 .user(user)
                 .book(book)
-                .loanDate(todayDate)
+                .rentalDate(todayDate)
                 .returnDate(returnDate)
                 .build();
         rentalRepository.save(rental);

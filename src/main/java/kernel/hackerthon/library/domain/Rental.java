@@ -1,37 +1,42 @@
 package kernel.hackerthon.library.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-
-
-@NoArgsConstructor
-@Getter @Setter
-@AllArgsConstructor
-@Builder
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "rental")
 public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long loanId;
+    private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id") // 'user' 테이블과 연결된 외래 키 (user 엔티티의 기본 키)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "book_id") // 'book' 테이블과 연결된 외래 키 (book 엔티티의 기본 키)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
     private Book book;
 
-    @Column(name = "loan_date")
-    private Date loanDate;
+    @Column(name = "rental_date")
+    private LocalDateTime rentalDate;
 
     @Column(name = "return_date")
-    private Date returnDate;
+    private LocalDateTime returnDate;
 
-    @Column(name = "loan_status")
-    private Boolean loanStatus;
-
+    @Builder
+    public Rental(Long id, User user, Book book, LocalDateTime rentalDate, LocalDateTime returnDate) {
+        this.id = id;
+        this.user = user;
+        this.book = book;
+        this.rentalDate = rentalDate;
+        this.returnDate = returnDate;
+    }
 }

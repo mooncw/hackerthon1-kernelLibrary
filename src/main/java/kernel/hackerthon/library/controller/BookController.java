@@ -72,7 +72,6 @@ public class BookController {
 
     @PostMapping("/add")
     public String addBook(AddBookRequest addBookRequest) {
-        System.out.println(addBookRequest.getBookname()); // 여기 null 찍히는 이유
         bookService.addBook(addBookRequest);
         return "redirect:/books";
     }

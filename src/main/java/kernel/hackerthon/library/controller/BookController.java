@@ -6,6 +6,7 @@ import kernel.hackerthon.library.repository.BookRepository;
 
 import kernel.hackerthon.library.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,9 @@ import java.util.Optional;
 @Controller
 public class BookController {
     private final BookService bookService;
+
+
+    private String apiKey;
 
     //@PostMapping("api/v1/books")
     //private ResponseEntity<Book> addBook(@RequestBody AddBookRequest addBookRequest){
@@ -69,7 +73,10 @@ public class BookController {
     }
 
     @GetMapping("/add")
-    public String showAddBookForm(AddBookRequest addBookRequest) { return "addingBooksForm"; }
+    public String showAddBookForm(AddBookRequest addBookRequest) {
+        System.out.println(apiKey);
+        return "addingBooksForm";
+    }
 
     @PostMapping("/add")
     public String addBook(AddBookRequest addBookRequest) {

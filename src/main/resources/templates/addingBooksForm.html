@@ -6,6 +6,7 @@
     <title>책 등록</title>
     <link rel="stylesheet" href="https://unpkg.com/mvp.css">
     <script src="https://cdn.jsdelivr.net/npm/quagga"></script>
+    <script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 </head>
 <body>
     <div>
@@ -59,8 +60,20 @@
 
 
         Quagga.onDetected(data => {
-            const code = data.codeResult.code;
-            alert("스캔된 데이터: " + code);
+            alert(data.codeResult.code);
+            const inputData = { "isbn" : data.codeResult.code };
+
+            $.ajax({
+                url: "/api/search",
+                type: "post",
+                data: JSON.stringify(inputData),
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                async: false,
+                success: function(data) {
+                    document.getElementById("bookname").value = data.bookname;
+                }
+            })
         });
 
     </script>

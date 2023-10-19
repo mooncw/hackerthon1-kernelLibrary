@@ -27,7 +27,9 @@ public class BookService {
     private final RentalRepository rentalRepository;
     private final UserRepository userRepository;
 
-
+    public void save(Book book){
+        bookRepository.save(book);
+    }
     // 책 전체 가져오는
     public List<Book> getBooks(){
         return bookRepository.findAll();
@@ -102,6 +104,26 @@ public class BookService {
 //            return 2;        // Book엔티티에 문제가 생긴 경우 2 출력
 //        }
 //    }
+    @Transactional
+    public void recover(Long bookId) {
+        Book findBook = bookRepository.findById(bookId).orElseThrow(NoSuchElementException::new);
+        // 현재 찾은 책이 렌탈중이라면 회수하지 못함
+        try{
+            if(findBook.getIsRental()){
+                throw new IllegalAccessException();
+            }
+        }catch (IllegalAccessException e){
+            e.printStackTrace();
+        }
+
+        bookRepository.save(new Book(findBook.getId(),
+                findBook.getName(), findBook.getIsRental(),
+                !findBook.getIsRecovery()));
+    }
+
+    public List<Book> findMyBook(HttpSession session){
+        return bookRepository.findBooksByUserId((Long) session.getAttribute("loginUser"));
+    }
 }
 
 

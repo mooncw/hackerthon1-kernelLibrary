@@ -13,10 +13,10 @@ import lombok.Setter;
 @Setter
 public class AddBookRequest {
     private String bookname;
-
+    private User user;
     public Book toEntity(User user){
         return Book.builder()
-                .name(bookname).isRental(false).isRecovery(false)
+                .name(bookname).isRental(false).isRecovery(false).user(user)
                 .build();
     }
 }

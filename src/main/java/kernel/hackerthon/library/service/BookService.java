@@ -2,7 +2,6 @@ package kernel.hackerthon.library.service;
 
 import jakarta.servlet.http.HttpSession;
 import kernel.hackerthon.library.domain.Book;
-import kernel.hackerthon.library.domain.Rental;
 import kernel.hackerthon.library.domain.User;
 import kernel.hackerthon.library.dto.AddBookRequest;
 import kernel.hackerthon.library.dto.GoogleBooksResponse;
@@ -15,8 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -30,11 +31,14 @@ public class BookService {
     public void save(Book book){
         bookRepository.save(book);
     }
-    // 책 전체 가져오는
-    public List<Book> getBooks(){
-        return bookRepository.findAll();
+    // 현재 서가에 있는 모든 책의 리스트를 조회
+    public List<Book> findBooksByIsRecoveryIsFalse(){
+        return bookRepository.findBooksByIsRecoveryIsFalse();
     }
-
+    // 현재 대출이 가능한 모든 책의 리스트를 조회
+    public List<Book> findBooksAvailable(){
+        return bookRepository.findBookByIsRecoveryIsFalseAndIsRentalIsFalse();
+    }
     public Optional<Book> getBook(Long bookId){
         return bookRepository.findById(bookId);
     }
@@ -54,22 +58,6 @@ public class BookService {
         return response;
     }
 
-//    public void borrowBook(Long bookId, Long userId){
-//        bookRepository.findById(bookId).orElseThrow().changeRentalStatus();
-//
-//        LocalDateTime todayDate = LocalDateTime.now();
-//        LocalDateTime returnDate = LocalDateTime.now().plusDays(1);
-//        User user = userRepository.findById(userId).orElseThrow();
-//        Book book = bookRepository.findById(bookId).orElseThrow();
-//
-//        Rental rental = Rental.builder()
-//                .user(user)
-//                .book(book)
-//                .rentalDate(todayDate)
-//                .returnDate(returnDate)
-//                .build();
-//        rentalRepository.save(rental);
-//    }
 
     public void addBook(AddBookRequest addBookRequest, HttpSession session) {
         User findUser = findByUser((Long) session.getAttribute("loginUser"));
@@ -124,7 +112,7 @@ public class BookService {
     }
 
     public List<Book> findMyBooks(HttpSession session){
-        return bookRepository.findBooksByUserIdAndIsRecoveryIsFalse((Long) session.getAttribute("loginUser"));
+        return bookRepository.findBooksByUserIdAndIsRecoveryIsFalseAndIsRentalIsFalse((Long) session.getAttribute("loginUser"));
     }
 }
 

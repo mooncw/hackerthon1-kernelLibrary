@@ -4,22 +4,14 @@ import jakarta.servlet.http.HttpSession;
 import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.dto.AddBookRequest;
 import kernel.hackerthon.library.dto.RecoverBookRequest;
-import kernel.hackerthon.library.dto.RentalRequest;
-import kernel.hackerthon.library.repository.BookRepository;
 
 import kernel.hackerthon.library.service.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,21 +24,13 @@ public class BookController {
 
     private String apiKey;
 
-    //@PostMapping("api/v1/books")
-    //private ResponseEntity<Book> addBook(@RequestBody AddBookRequest addBookRequest){
-    //    Book savedBook = bookService.save(addBookRequest);
-    //    return ResponseEntity.status(HttpStatus.CREATED)
-    //            .body(savedBook);
-    //}
-
     // (메인 서고화면)서고에 있는 모든 책 get 하기
     // 회수한 책은 제외하도록 처리해야
     @GetMapping
-    public String books(ModelMap map) {
-        List<Book> books = bookService.getBooks();
+    public String books(Model model) {
+        List<Book> existingBooks = bookService.findBooksByIsRecoveryIsFalse();
 
-        map.addAttribute("books", books);
-
+        model.addAttribute("books", existingBooks);
         return "firstpage";
     }
 
@@ -99,19 +83,3 @@ public class BookController {
         return "redirect:/books/recovers";
     }
 }
-         
-
-
-
-//@GetMapping("/addBook")
-//public String addBookForm(Model model) {
-//    model.addAttribute("addBookRequest", new AddBookRequest());
-//    model.addAttribute("books", bookService.getAllBooks());
-//    return "addBook";
-//}
-//
-//    @PostMapping("/api/v1/books")
-//    public String addBook(@ModelAttribute AddBookRequest addBookRequest) {
-//        bookService.save(addBookRequest);
-//        return "redirect:/addBook";
-//    }

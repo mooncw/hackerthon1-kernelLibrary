@@ -9,16 +9,26 @@
     <body>
     <div>
         <div>
-            <h4>책 등록</h4>
+            <h4>책 대여</h4>
         </div>
         <form th:action="@{/api/v1/rentals}" th:object="${rentalRequest}" method="post">
-            <label for="userId">유저 식별자</label>
-            <input type="text" id="userId" name="userId" th:field="*{userId}" required>
+            <label for="bookId">대여 가능한 책 목록</label>
+            <select id="bookId" name="bookId" th:field="*{bookId}">
+                <option th:each="book : ${bookList}" th:value="${book.id}" th:text="${book.name}"></option>
+            </select>
             <br>
-            <label for="userId">책 식별자</label>
-            <input type="text" id="bookId" name="bookId" th:field="*{bookId}" required>
-            <br>
-            <button type="submit">등록</button>
+            <button type="submit">대여 신청</button>
+        </form>
+    </div>
+    <div>
+        <div>
+            <h4>책 반납</h4>
+        </div>
+        <form th:action="@{/api/vi/returns}" th:object="${rentalRequest}" method="post">
+            <label for="rentalBookId">반납할 책 목록</label>
+            <select id="rentalBookId" name="bookId" th:field="*{bookId}">
+                <option th:each="rentaledBook : ${rentaledBookList}" th:value="${rentaledBook.id}" th:text="${rentaledBook.name}"></option>
+            </select>
         </form>
     </div>
     </body>

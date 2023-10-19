@@ -1,6 +1,7 @@
 package kernel.hackerthon.library.dto;
 
 import kernel.hackerthon.library.domain.Book;
+import kernel.hackerthon.library.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,9 +14,9 @@ import lombok.Setter;
 public class AddBookRequest {
     private String bookname;
 
-    public Book toEntity(){
+    public Book toEntity(User user){
         return Book.builder()
-                .name(bookname).isRental(false).isRecovery(false)
+                .name(bookname).isRental(false).isRecovery(false).user(user)
                 .build();
     }
 }

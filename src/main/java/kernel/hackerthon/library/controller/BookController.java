@@ -1,5 +1,6 @@
 package kernel.hackerthon.library.controller;
 
+import jakarta.servlet.http.HttpSession;
 import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.dto.AddBookRequest;
 import kernel.hackerthon.library.repository.BookRepository;
@@ -73,13 +74,12 @@ public class BookController {
 
     @GetMapping("/add")
     public String showAddBookForm(AddBookRequest addBookRequest) {
-        System.out.println(apiKey);
         return "addingBooksForm";
     }
 
     @PostMapping("/add")
-    public String addBook(AddBookRequest addBookRequest) {
-        bookService.addBook(addBookRequest);
+    public String addBook(AddBookRequest addBookRequest, HttpSession session) {
+        bookService.addBook(addBookRequest, session);
         return "redirect:/books";
     }
 }

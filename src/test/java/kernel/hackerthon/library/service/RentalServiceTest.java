@@ -26,7 +26,7 @@ class RentalServiceTest {
     void 도서대여() {
         // given
         User savedUser = userRepository.save(new User(null, null, null, null));
-        Book savedBook = bookRepository.save(new Book(null, null, null, null));
+        Book savedBook = bookRepository.save(new Book(null, null, null, null, null));
         RentalRequest rentalRequest = new RentalRequest(savedUser.getId(), savedBook.getId(), 1L);
 
         // when

@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import kernel.hackerthon.library.domain.User;
 import kernel.hackerthon.library.dto.JoinRequest;
 import kernel.hackerthon.library.dto.LoginRequest;
+import kernel.hackerthon.library.repository.BookRepository;
 import kernel.hackerthon.library.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class UserService {
     @Autowired
     private final UserRepository userRepository;
+    private final BookRepository bookRepository;
 
     public void join(JoinRequest joinRequest) { userRepository.save(joinRequest.toEntity()); }
 
@@ -34,5 +36,9 @@ public class UserService {
 
     public void logout(HttpSession session) {
         session.invalidate(); // session 초기화
+    }
+
+    public boolean isUserRegisteredBook(HttpSession session) {
+        return bookRepository.existsBookByUserId((Long)session.getAttribute("loginUser"));
     }
 }

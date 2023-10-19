@@ -11,7 +11,7 @@
   <div>
     <h4>책 회수</h4>
   </div>
-  <form th:action="@{/api/v1/recovers}" th:object="${recoverBookRequest}" method="post">
+  <form th:action="@{/books/api/v1/recovers}" th:object="${recoverBookRequest}" method="post">
     <label for="bookId">내가 등록한 책 목록</label>
     <select id="bookId" name="bookId" th:field="*{bookId}">
       <option value="0" disabled>회수할 책을 선택하세요</option>

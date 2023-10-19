@@ -27,7 +27,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Rental> rentals = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     private List<Book> books = new ArrayList<>();
 
     @Builder

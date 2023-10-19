@@ -88,15 +88,15 @@ public class BookController {
 
     @GetMapping("/recovers")
     public String recoverMyBook(RecoverBookRequest recoverBookRequest, Model model ,HttpSession session) {
-        List<Book> bookList = bookService.findMyBook(session);
+        List<Book> bookList = bookService.findMyBooks(session);
         model.addAttribute("bookList", bookList);
         return "recoverBookForm";
     }
 
     @PostMapping("/api/v1/recovers")
     public String recoverBook(RecoverBookRequest recoverBookRequest, HttpSession httpSession) {
-        bookService.recover(recoverBookRequest.getBookId());
-        return "redirect:/recovers";
+        bookService.recover(recoverBookRequest.getBookId(),httpSession);
+        return "redirect:/books/recovers";
     }
 }
          

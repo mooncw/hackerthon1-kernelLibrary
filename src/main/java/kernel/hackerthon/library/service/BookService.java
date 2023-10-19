@@ -105,8 +105,10 @@ public class BookService {
 //        }
 //    }
     @Transactional
-    public void recover(Long bookId) {
+    public void recover(Long bookId, HttpSession session) {
         Book findBook = bookRepository.findById(bookId).orElseThrow(NoSuchElementException::new);
+        User findUser = userRepository.findById((Long) session.getAttribute("loginUser"))
+                .orElseThrow(NoSuchElementException::new);
         // 현재 찾은 책이 렌탈중이라면 회수하지 못함
         try{
             if(findBook.getIsRental()){
@@ -116,9 +118,9 @@ public class BookService {
             e.printStackTrace();
         }
 
-        //bookRepository.save(new Book(findBook.getId(),
-        //        findBook.getName(), findBook.getIsRental(),
-        //       !findBook.getIsRecovery(), ));
+        bookRepository.save(new Book(findBook.getId(),
+                findBook.getName(), findBook.getIsRental(),
+                !findBook.getIsRecovery(), findUser));
     }
 
     public List<Book> findMyBooks(HttpSession session){

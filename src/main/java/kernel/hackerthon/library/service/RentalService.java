@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -19,6 +21,10 @@ public class RentalService {
     private final RentalRepository rentalRepository;
     private final BookRepository bookRepository;
     private final UserRepository userRepository;
+
+    public List<Book> getBooksRentalAvailable(HttpSession session) {
+        return bookRepository.findBooksByIsRentalIsFalse();
+    }
 
     @Transactional
     public Long rentalByBook(RentalRequest rentalRequest, HttpSession httpSession) {

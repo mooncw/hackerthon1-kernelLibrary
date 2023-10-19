@@ -1,5 +1,6 @@
 package kernel.hackerthon.library.service;
 
+import jakarta.servlet.http.HttpSession;
 import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.domain.Rental;
 import kernel.hackerthon.library.domain.User;
@@ -26,9 +27,6 @@ public class BookService {
     private final RentalRepository rentalRepository;
     private final UserRepository userRepository;
 
-    public Book save(AddBookRequest request){
-        return bookRepository.save(request.toEntity());
-    }
 
     // 책 전체 가져오는
     public List<Book> getBooks(){
@@ -71,7 +69,15 @@ public class BookService {
 //        rentalRepository.save(rental);
 //    }
 
-    public void addBook(AddBookRequest addBookRequest) { bookRepository.save(addBookRequest.toEntity());}
+    public void addBook(AddBookRequest addBookRequest, HttpSession session) {
+        User findUser = findByUser((Long) session.getAttribute("loginUser"));
+        bookRepository.save(addBookRequest.toEntity(findUser));
+    }
+
+    private User findByUser(Long userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    }
 
     // 책 반납하기
 //    @Transactional

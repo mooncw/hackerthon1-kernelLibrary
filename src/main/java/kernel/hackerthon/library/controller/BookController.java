@@ -3,6 +3,8 @@ package kernel.hackerthon.library.controller;
 import jakarta.servlet.http.HttpSession;
 import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.dto.AddBookRequest;
+import kernel.hackerthon.library.dto.RecoverBookRequest;
+import kernel.hackerthon.library.dto.RentalRequest;
 import kernel.hackerthon.library.repository.BookRepository;
 
 import kernel.hackerthon.library.service.BookService;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -81,6 +84,18 @@ public class BookController {
     public String addBook(AddBookRequest addBookRequest, HttpSession session) {
         bookService.addBook(addBookRequest, session);
         return "redirect:/books";
+    }
+
+    @GetMapping("/recovers")
+    public String recoverMyBook(Model model ,HttpSession session) {
+        List<Book> bookList = bookService.findMyBook(session);
+        model.addAttribute("bookList", bookList);
+        return "recoverBookForm";
+    }
+    @PostMapping("/api/v1/recovers")
+    public String recoverBook(RecoverBookRequest recoverBookRequest, HttpSession httpSession) {
+        bookService.recover(recoverBookRequest.getBookId());
+        return "redirect:/recovers";
     }
 }
          

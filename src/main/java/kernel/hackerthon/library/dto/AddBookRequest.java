@@ -16,7 +16,7 @@ public class AddBookRequest {
 
     public Book toEntity(User user){
         return Book.builder()
-                .name(bookname).isRental(false).isRecovery(false).user(user)
+                .name(bookname).isRental(false).isRecovery(false)
                 .build();
     }
 }

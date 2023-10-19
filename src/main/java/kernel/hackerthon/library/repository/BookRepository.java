@@ -12,6 +12,8 @@ public interface BookRepository extends
         JpaRepository<Book, Long> {
 
     public List<Book> findBooksByIsRentalIsFalse();
+
+    public List<Book> findBooksByUserId(Long id);
 }
 
 

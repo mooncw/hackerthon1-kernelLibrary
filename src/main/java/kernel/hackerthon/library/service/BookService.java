@@ -124,7 +124,7 @@ public class BookService {
     }
 
     public List<Book> findMyBooks(HttpSession session){
-        return bookRepository.findBooksByUserId((Long) session.getAttribute("loginUser"));
+        return bookRepository.findBooksByUserIdAndIsRecoveryIsFalse((Long) session.getAttribute("loginUser"));
     }
 }
 

@@ -11,15 +11,15 @@ import java.util.List;
 public interface BookRepository extends
         JpaRepository<Book, Long> {
 
-    public List<Book> findBooksByIsRentalIsFalse();
+    List<Book> findBooksByIsRentalIsFalse();
 
-    public List<Book> findBookByIsRecoveryIsFalseAndIsRentalIsFalse();
+     List<Book> findBookByIsRecoveryIsFalseAndIsRentalIsFalse();
 
-    public List<Book> findBooksByUserIdAndIsRecoveryIsFalseAndIsRentalIsFalse(Long id);
+    List<Book> findBooksByUserIdAndIsRecoveryIsFalseAndIsRentalIsFalse(Long id);
 
-    public boolean existsBookByUserId(Long id);
+     boolean existsBookByUserId(Long id);
 
-    public List<Book> findBooksByIsRecoveryIsFalse();
+     List<Book> findBooksByIsRecoveryIsFalse();
 
 }
 

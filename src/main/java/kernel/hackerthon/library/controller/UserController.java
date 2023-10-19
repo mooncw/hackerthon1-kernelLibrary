@@ -40,4 +40,9 @@ public class UserController {
         userService.logout(session);
         return "redirect:/user/login";
     }
+
+    @GetMapping("/noPermission")
+    public String showNoPermission() {
+        return "noPermission";
+    }
 }

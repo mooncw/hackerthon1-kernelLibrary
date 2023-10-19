@@ -87,8 +87,8 @@ public class BookController {
     }
 
     @GetMapping("/recovers")
-    public String recoverMyBook(RecoverBookRequest request, Model model ,HttpSession session) {
-        List<Book> bookList = bookService.findMyBooks(session);
+    public String recoverMyBook(RecoverBookRequest recoverBookRequest, Model model ,HttpSession session) {
+        List<Book> bookList = bookService.findMyBook(session);
         model.addAttribute("bookList", bookList);
         return "recoverBookForm";
     }

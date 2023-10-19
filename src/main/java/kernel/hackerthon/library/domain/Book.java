@@ -30,11 +30,12 @@ public class Book {
     @JoinColumn(name = "user_id")
     private User user;
     @Builder
-    public Book(Long id, String name, Boolean isRental, Boolean isRecovery) {
+    public Book(Long id, String name, Boolean isRental, Boolean isRecovery, User user) {
         this.id = id;
         this.name = name;
         this.isRental = isRental;
         this.isRecovery = isRecovery;
+        this.user = user;
     }
 
     public void rentalByBook() {

@@ -29,3 +29,9 @@ logging:
   level:
     org.hibernate.SQL: debug  # Hibernate가 생성한 SQL 쿼리를 디버그 수준으로 로깅
     org.hibernate.type: trace  # Hibernate 데이터 유형 추적 (선택 사항)
+
+# Server 세션 설정
+server:
+  servlet:
+    session:
+      persistent: false

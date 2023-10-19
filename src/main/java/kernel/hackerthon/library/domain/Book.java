@@ -26,7 +26,7 @@ public class Book {
     @Column(name="is_recovery", columnDefinition = "varchar", length = 255)
     private Boolean isRecovery;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
     @Builder

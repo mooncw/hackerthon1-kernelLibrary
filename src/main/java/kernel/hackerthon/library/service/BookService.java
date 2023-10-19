@@ -121,7 +121,7 @@ public class BookService {
                 !findBook.getIsRecovery()));
     }
 
-    public List<Book> findMyBook(HttpSession session){
+    public List<Book> findMyBooks(HttpSession session){
         return bookRepository.findBooksByUserId((Long) session.getAttribute("loginUser"));
     }
 }

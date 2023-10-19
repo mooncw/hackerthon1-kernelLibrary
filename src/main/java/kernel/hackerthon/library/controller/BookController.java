@@ -87,11 +87,12 @@ public class BookController {
     }
 
     @GetMapping("/recovers")
-    public String recoverMyBook(Model model ,HttpSession session) {
-        List<Book> bookList = bookService.findMyBook(session);
+    public String recoverMyBook(RecoverBookRequest request, Model model ,HttpSession session) {
+        List<Book> bookList = bookService.findMyBooks(session);
         model.addAttribute("bookList", bookList);
         return "recoverBookForm";
     }
+
     @PostMapping("/api/v1/recovers")
     public String recoverBook(RecoverBookRequest recoverBookRequest, HttpSession httpSession) {
         bookService.recover(recoverBookRequest.getBookId());

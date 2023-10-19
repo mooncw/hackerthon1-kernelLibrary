@@ -26,6 +26,10 @@ public class Book {
     @Column(name="is_recovery", columnDefinition = "varchar", length = 255)
     private Boolean isRecovery;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Builder
     public Book(Long id, String name, Boolean isRental, Boolean isRecovery) {
         this.id = id;

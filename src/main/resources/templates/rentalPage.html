@@ -24,11 +24,13 @@
         <div>
             <h4>책 반납</h4>
         </div>
-        <form th:action="@{/api/vi/returns}" th:object="${rentalRequest}" method="post">
+        <form th:action="@{/api/v1/returns}" th:object="${rentalRequest}" method="post">
             <label for="rentalBookId">반납할 책 목록</label>
-            <select id="rentalBookId" name="bookId" th:field="*{bookId}">
-                <option th:each="rentaledBook : ${rentaledBookList}" th:value="${rentaledBook.id}" th:text="${rentaledBook.name}"></option>
+            <select id="rentalBookId" name="rentalId" th:field="*{rentalId}">
+                <option th:each="rentaledBook : ${rentaledBookList}" th:value="${rentaledBook.id}" th:text="${rentaledBook.book.name}"></option>
             </select>
+            <br>
+            <button type="submit">반납 완료</button>
         </form>
     </div>
     </body>

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,12 @@ public class RentalService {
 
     public List<Book> getBooksRentalAvailable(HttpSession session) {
         return bookRepository.findBooksByIsRentalIsFalse();
+    }
+
+    @Transactional
+    public List<Rental> getBooksReturnAvailable(HttpSession session) {
+        return rentalRepository.findRentalsByUserIdAndReturnDateIsNull((Long) session.getAttribute("loginUser"));
+        //return rentalList.stream().map(Rental::getBook).collect(Collectors.toList());
     }
 
     @Transactional
@@ -40,11 +47,10 @@ public class RentalService {
 
     @Transactional
     public void returnByBook(RentalRequest rentalRequest, HttpSession httpSession){
-        Rental findRental = rentalRepository.findByReturnDateIsNotNullAndIdAndUserId(rentalRequest.getRentalId(), (Long)httpSession.getAttribute("loginUser"))
+        Rental findRental = rentalRepository.findByReturnDateIsNullAndIdAndUserId(rentalRequest.getRentalId(), (Long)httpSession.getAttribute("loginUser"))
                 .orElseThrow(() -> new IllegalArgumentException("대여 정보를 찾을 수 없습니다."));
         findRental.saveReturnDate();
-
-        Book findBook = findByBook(rentalRequest.getBookId());
+        Book findBook = findByBook(findRental.getBook().getId());
         findBook.returnByBook();
     }
 

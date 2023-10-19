@@ -116,9 +116,9 @@ public class BookService {
             e.printStackTrace();
         }
 
-        bookRepository.save(new Book(findBook.getId(),
-                findBook.getName(), findBook.getIsRental(),
-                !findBook.getIsRecovery()));
+        //bookRepository.save(new Book(findBook.getId(),
+        //        findBook.getName(), findBook.getIsRental(),
+        //       !findBook.getIsRecovery(), ));
     }
 
     public List<Book> findMyBook(HttpSession session){

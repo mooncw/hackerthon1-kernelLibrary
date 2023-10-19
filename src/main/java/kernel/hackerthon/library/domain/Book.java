@@ -1,12 +1,14 @@
 package kernel.hackerthon.library.domain;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
 @Table(name = "book")
@@ -24,17 +26,12 @@ public class Book {
     @Column(name="is_recovery", columnDefinition = "varchar", length = 255)
     private Boolean isRecovery;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
-
     @Builder
-    public Book(Long id, String name, Boolean isRental, Boolean isRecovery, User user) {
+    public Book(Long id, String name, Boolean isRental, Boolean isRecovery) {
         this.id = id;
         this.name = name;
         this.isRental = isRental;
         this.isRecovery = isRecovery;
-        this.user = user;
     }
 
     public void rentalByBook() {

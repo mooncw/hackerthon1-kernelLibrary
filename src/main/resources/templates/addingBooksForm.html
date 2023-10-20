@@ -56,7 +56,7 @@
         </div>
     </div>
     <div style="display: flex; justify-content: center">
-        <form th:action="@{/books/add}" th:object="${addBookRequest}" method="post" style="width: 50%; margin-top: 100px;">
+        <form th:action="@{/books/add}" th:object="${bookRequest}" method="post" style="width: 50%; margin-top: 100px;">
             <label for="bookname">책명</label>
             <input type="text" id="bookname" name="bookname" th:field="*{bookname}" required>
             <br>
@@ -64,6 +64,7 @@
         </form>
     </div>
     <script>
+        // FIXME :: @Autowired로 HttpSession 주입하도록 변경하였더니, 카메라 연결 허가를 처음 받는 과정에서 세션이 다운 됨
         const barcode_scanner = document.getElementById("barcode-scanner");
         barcode_scanner.style.display = "none";
         const barcode_btn = document.getElementById("barcode_button");
@@ -103,7 +104,7 @@
             const inputData = { "isbn" : data.codeResult.code };
 
             $.ajax({
-                url: "/api/search",
+                url: "api/v1/books/search",
                 type: "post",
                 data: JSON.stringify(inputData),
                 dataType: "json",

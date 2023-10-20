@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+
 public class SessionInterceptor implements HandlerInterceptor {
 
     @Override
@@ -15,21 +17,30 @@ public class SessionInterceptor implements HandlerInterceptor {
                 "/user/loginProcess",
                 "/user/join",
                 "/user/logout"
-        };  // 세션 체크하지 않을 url 명시
+        };
 
         String requestURI = request.getRequestURI();
 
-        for (String allowedURL : allowedURLs) {
-            if (requestURI.endsWith(allowedURL)) {
-                return true;  // 세션 체크를 하지 않음
-            }
-        }
+        if (compareRequestUriWithAllowedUri(allowedURLs, requestURI)) return true;
 
+        return !interruptWhenNotPermitted(request, response);
+    }
+
+    private static boolean interruptWhenNotPermitted(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getSession().getAttribute("loginUser") == null) {
             response.sendRedirect(request.getContextPath() + "/user/login");
-            return false;  // 컨트롤러 실행을 중단
+            return true;
         }
-        return true;  // 컨트롤러 실행 계속
+        return false;
+    }
+
+    private static boolean compareRequestUriWithAllowedUri(String[] allowedURLs, String requestURI) {
+        for (String allowedURL : allowedURLs) {
+            if (requestURI.endsWith(allowedURL)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

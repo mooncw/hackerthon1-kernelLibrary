@@ -3,7 +3,7 @@ package kernel.hackerthon.library.service;
 import jakarta.servlet.http.HttpSession;
 import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.domain.User;
-import kernel.hackerthon.library.dto.AddBookRequest;
+import kernel.hackerthon.library.dto.BookRequest;
 import kernel.hackerthon.library.dto.GoogleBooksResponse;
 import kernel.hackerthon.library.repository.BookRepository;
 import kernel.hackerthon.library.repository.RentalRepository;
@@ -43,9 +43,9 @@ public class BookService {
         return bookRepository.findById(bookId);
     }
 
-    public GoogleBooksResponse searchBookWithIsbn(Map<Object, Object> map) {
-        String isbn = (String) map.get("isbn");
-        String apiKey = (String) map.get("apiKey");
+    public GoogleBooksResponse searchBookWithIsbn(Map<Object, String> map) {
+        String isbn = map.get("isbn");
+        String apiKey = map.get("apiKey");
 
         String apiUrl = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn + "&key=" + apiKey;
 
@@ -59,7 +59,7 @@ public class BookService {
     }
 
 
-    public void addBook(AddBookRequest addBookRequest, HttpSession session) {
+    public void addBook(BookRequest addBookRequest, HttpSession session) {
         User findUser = findByUser((Long) session.getAttribute("loginUser"));
         bookRepository.save(addBookRequest.toEntity(findUser));
     }

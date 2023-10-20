@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/user") // FIXME :: users 로 변경 필요
 public class UserController {
     private final UserService userService;
     private final HttpSession httpSession;

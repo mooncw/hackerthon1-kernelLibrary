@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final HttpSession httpSession;
     @GetMapping("/join")
     public String showJoinForm(JoinRequest joinRequest) { return "joinForm"; }
 
@@ -25,19 +26,19 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String loginForm(HttpSession session) {
+    public String loginForm() {
         return "loginForm";
     }
 
     @PostMapping("/loginProcess")
-    public String login(HttpSession session, LoginRequest loginRequest) {
-        userService.saveSession(loginRequest, session);
+    public String login( LoginRequest loginRequest) {
+        userService.saveSession(loginRequest, httpSession);
         return "redirect:/books";
     }
 
     @GetMapping("/logout")
-    public String logout(HttpSession session) {
-        userService.logout(session);
+    public String logout() {
+        userService.logout(httpSession);
         return "redirect:/user/login";
     }
 

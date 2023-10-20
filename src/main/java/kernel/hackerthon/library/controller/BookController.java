@@ -7,6 +7,7 @@ import kernel.hackerthon.library.dto.RecoverBookRequest;
 
 import kernel.hackerthon.library.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -19,8 +20,10 @@ import java.util.Optional;
 @RequestMapping("/books")
 @Controller
 public class BookController {
+    @Autowired
     private final BookService bookService;
-
+    @Autowired
+    private HttpSession httpSession;
 
     private String apiKey;
 
@@ -49,11 +52,9 @@ public class BookController {
     public String borrowBook(
             @PathVariable Long bookId,
             @PathVariable Long userId
-//          @AuthenticationPrincipal BoardPrincipal boardPrincipal  스프링시큐리티에서 유저 정보 처리..?
-            // 현재는 유저 정보 바로 올리기
     )
     {
-        //bookService.borrowBook(bookId, userId);
+
 
         return "redirect:/books";
     }
@@ -64,21 +65,22 @@ public class BookController {
     }
 
     @PostMapping("/add")
-    public String addBook(AddBookRequest addBookRequest, HttpSession session) {
-        bookService.addBook(addBookRequest, session);
+    public String addBook(AddBookRequest addBookRequest) {
+        bookService.addBook(addBookRequest, httpSession);
         return "redirect:/books";
     }
 
     @GetMapping("/recovers")
-    public String recoverMyBook(RecoverBookRequest recoverBookRequest, Model model ,HttpSession session) {
-        List<Book> bookList = bookService.findMyBooks(session);
+    public String recoverMyBook(RecoverBookRequest recoverBookRequest, Model model ) {
+        List<Book> bookList = bookService.findMyBooks(httpSession);
         model.addAttribute("bookList", bookList);
         return "recoverBookForm";
     }
 
     @PostMapping("/api/v1/recovers")
-    public String recoverBook(RecoverBookRequest recoverBookRequest, HttpSession httpSession) {
+    public String recoverBook(RecoverBookRequest recoverBookRequest) {
         bookService.recover(recoverBookRequest.getBookId(),httpSession);
         return "redirect:/books/recovers";
     }
+
 }

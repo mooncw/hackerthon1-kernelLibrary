@@ -19,13 +19,14 @@ public class RentalController {
 
     private final RentalService rentalService;
     private final UserService userService;
+    private final HttpSession httpSession;
 
     @GetMapping("/rentals")
-    public String viewRental(RentalRequest rentalRequest, HttpSession session, Model model) {
-        boolean userHasPermission = userService.isUserRegisteredBook(session);
+    public String viewRental(RentalRequest rentalRequest, Model model) {
+        boolean userHasPermission = userService.isUserRegisteredBook(httpSession);
         if(!userHasPermission) return "redirect:/user/noPermission";
-        List<Book> bookList = rentalService.getBooksRentalAvailable(session);
-        List<Rental> rentaledBookList = rentalService.getBooksReturnAvailable(session);
+        List<Book> bookList = rentalService.getBooksRentalAvailable(httpSession);
+        List<Rental> rentaledBookList = rentalService.getBooksReturnAvailable(httpSession);
 
         model.addAttribute("bookList", bookList);
         model.addAttribute("rentaledBookList", rentaledBookList);
@@ -33,13 +34,13 @@ public class RentalController {
     }
 
     @PostMapping("/api/v1/rentals")
-    public String rentalByBook(RentalRequest rentalRequest, HttpSession httpSession) {
+    public String rentalByBook(RentalRequest rentalRequest) {
         rentalService.rentalByBook(rentalRequest, httpSession);
         return "redirect:/rentals";
     }
 
     @PostMapping("/api/v1/returns")
-    public String returnByBook(RentalRequest rentalRequest, HttpSession httpSession) {
+    public String returnByBook(RentalRequest rentalRequest) {
         rentalService.returnByBook(rentalRequest, httpSession);
         return "redirect:/rentals";
     }

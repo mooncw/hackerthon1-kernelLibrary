@@ -23,8 +23,9 @@ public class RentalController {
 
     @GetMapping("/rentals")
     public String viewRental(RentalRequest rentalRequest, Model model) {
-        boolean userHasPermission = userService.isUserRegisteredBook(httpSession);
-        if(!userHasPermission) return "redirect:/user/noPermission";
+        if(!isUserRegisteredBook()) return "redirect:/user/noPermission";
+
+        // FIXME : DTO로 변환해서 받는 것이 좋아보임
         List<Book> bookList = rentalService.getBooksRentalAvailable(httpSession);
         List<Rental> rentaledBookList = rentalService.getBooksReturnAvailable(httpSession);
 
@@ -33,13 +34,17 @@ public class RentalController {
         return "rentalPage";
     }
 
-    @PostMapping("/api/v1/rentals")
+    private Boolean isUserRegisteredBook() {
+        return userService.isUserRegisteredBook(httpSession);
+    }
+
+    @PostMapping("/rentals")
     public String rentalByBook(RentalRequest rentalRequest) {
         rentalService.rentalByBook(rentalRequest, httpSession);
         return "redirect:/rentals";
     }
 
-    @PostMapping("/api/v1/returns")
+    @PostMapping("/returns")
     public String returnByBook(RentalRequest rentalRequest) {
         rentalService.returnByBook(rentalRequest, httpSession);
         return "redirect:/rentals";

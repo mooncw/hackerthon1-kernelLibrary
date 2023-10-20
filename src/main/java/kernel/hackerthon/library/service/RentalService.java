@@ -30,7 +30,6 @@ public class RentalService {
     @Transactional
     public List<Rental> getBooksReturnAvailable(HttpSession session) {
         return rentalRepository.findRentalsByUserIdAndReturnDateIsNull((Long) session.getAttribute("loginUser"));
-        //return rentalList.stream().map(Rental::getBook).collect(Collectors.toList());
     }
 
     @Transactional

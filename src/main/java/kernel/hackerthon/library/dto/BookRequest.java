@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class AddBookRequest {
+public class BookRequest {
     private String bookname;
     private User user;
     public Book toEntity(User user){

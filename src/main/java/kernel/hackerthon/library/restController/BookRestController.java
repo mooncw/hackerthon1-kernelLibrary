@@ -1,4 +1,4 @@
-package kernel.hackerthon.library.controller;
+package kernel.hackerthon.library.restController;
 
 import com.google.gson.Gson;
 import kernel.hackerthon.library.dto.GoogleBooksResponse;
@@ -16,20 +16,22 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
-public class BookApiController {
+public class BookRestController {
 
     private final BookService bookService;
 
     @Value("${google-books-api-key}")
     private String apiKey;
 
-    @PostMapping("/search")
+    @PostMapping("/v1/books/search")
     public String searchBookWithIsbn(@RequestBody String isbnData) {
         String json = null;
         try {
             Gson gsonRequest = new Gson();
-            Map<Object, Object> requestMap = new HashMap<>();
-            requestMap = (Map<Object, Object>)gsonRequest.fromJson(isbnData, requestMap.getClass());
+            Map<Object, String> requestMap = new HashMap<>();
+            // FIXME :: 캐스팅을 서비스에 넣는게 좋을 듯...?
+            requestMap = (Map<Object, String>)gsonRequest
+                    .fromJson(isbnData, requestMap.getClass());
             requestMap.put("apiKey", apiKey);
 
             GoogleBooksResponse response = bookService.searchBookWithIsbn(requestMap);

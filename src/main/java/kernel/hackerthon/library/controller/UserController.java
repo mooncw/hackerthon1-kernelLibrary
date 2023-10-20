@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("/user") // FIXME :: users 로 변경 필요
 public class UserController {
     private final UserService userService;
     private final HttpSession httpSession;
@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/loginProcess")
-    public String login( LoginRequest loginRequest) {
+    public String login(LoginRequest loginRequest) {
         userService.saveSession(loginRequest, httpSession);
         return "redirect:/books";
     }

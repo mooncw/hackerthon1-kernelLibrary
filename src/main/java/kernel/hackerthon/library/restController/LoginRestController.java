@@ -1,4 +1,4 @@
-package kernel.hackerthon.library.controller;
+package kernel.hackerthon.library.restController;
 
 import kernel.hackerthon.library.dto.LoginRequest;
 import kernel.hackerthon.library.service.UserService;

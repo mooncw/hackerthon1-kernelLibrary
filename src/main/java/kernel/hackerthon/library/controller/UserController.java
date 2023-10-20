@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping("/loginProcess")
-    public String login( LoginRequest loginRequest) {
+    public String login(LoginRequest loginRequest) {
         userService.saveSession(loginRequest, httpSession);
         return "redirect:/books";
     }

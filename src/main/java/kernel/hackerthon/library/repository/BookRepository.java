@@ -13,7 +13,7 @@ public interface BookRepository extends
 
     List<Book> findBooksByIsRentalIsFalse();
 
-     List<Book> findBookByIsRecoveryIsFalseAndIsRentalIsFalse();
+    List<Book> findBookByIsRecoveryIsFalseAndIsRentalIsFalse();
 
     List<Book> findBooksByUserIdAndIsRecoveryIsFalseAndIsRentalIsFalse(Long id);
 

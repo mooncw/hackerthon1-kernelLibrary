@@ -5,7 +5,7 @@
 <body>
     <div layout:fragment="content">
         <div style="display: flex; justify-content: center;">
-            <form th:action="@{/api/v1/rentals}" th:object="${rentalRequest}" method="post" style="width: 50%; margin-top: 100px;">
+            <form th:action="@{/rentals}" th:object="${rentalRequest}" method="post" style="width: 50%; margin-top: 100px;">
                 <div>
                     <h4>책 대여</h4>
                 </div>
@@ -18,7 +18,7 @@
             </form>
         </div>
         <div style="display: flex; justify-content: center;">
-            <form th:action="@{/api/v1/returns}" th:object="${rentalRequest}" method="post" style="width: 50%; margin-top: 100px;">
+            <form th:action="@{/returns}" th:object="${rentalRequest}" method="post" style="width: 50%; margin-top: 100px;">
                 <div>
                     <h4>책 반납</h4>
                 </div>

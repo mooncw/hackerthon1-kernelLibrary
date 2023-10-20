@@ -104,7 +104,7 @@
             const inputData = { "isbn" : data.codeResult.code };
 
             $.ajax({
-                url: "/api/search",
+                url: "api/v1/books/search",
                 type: "post",
                 data: JSON.stringify(inputData),
                 dataType: "json",

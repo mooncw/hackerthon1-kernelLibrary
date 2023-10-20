@@ -1,14 +1,15 @@
 package kernel.hackerthon.library.controller;
 
+import jakarta.servlet.http.HttpSession;
 import kernel.hackerthon.library.domain.Book;
 import kernel.hackerthon.library.dto.AddBookRequest;
-import kernel.hackerthon.library.repository.BookRepository;
+import kernel.hackerthon.library.dto.RecoverBookRequest;
 
 import kernel.hackerthon.library.service.BookService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,24 +20,19 @@ import java.util.Optional;
 @RequestMapping("/books")
 @Controller
 public class BookController {
+    @Autowired
     private final BookService bookService;
+    @Autowired
+    private HttpSession httpSession;
 
-    @PostMapping("api/v1/books")
-    private ResponseEntity<Book> addBook(@RequestBody AddBookRequest addBookRequest){
-        Book savedBook = bookService.save(addBookRequest);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(savedBook);
-    }
-
+    private String apiKey;
 
     // (메인 서고화면)서고에 있는 모든 책 get 하기
     // 회수한 책은 제외하도록 처리해야
     @GetMapping
-    public String books(ModelMap map) {
-        List<Book> books = bookService.getBooks();
-
-        map.addAttribute("books", books);
-
+    public String books(Model model) {
+        List<Book> books = bookService.findBooksByIsRecoveryIsFalse();
+        model.addAttribute("books", books);
         return "firstpage";
     }
 
@@ -56,28 +52,35 @@ public class BookController {
     public String borrowBook(
             @PathVariable Long bookId,
             @PathVariable Long userId
-//          @AuthenticationPrincipal BoardPrincipal boardPrincipal  스프링시큐리티에서 유저 정보 처리..?
-            // 현재는 유저 정보 바로 올리기
     )
     {
-        bookService.borrowBook(bookId, userId);
+
 
         return "redirect:/books";
     }
+
+    @GetMapping("/add")
+    public String showAddBookForm(AddBookRequest addBookRequest) {
+        return "addingBooksForm";
+    }
+
+    @PostMapping("/add")
+    public String addBook(AddBookRequest addBookRequest) {
+        bookService.addBook(addBookRequest, httpSession);
+        return "redirect:/books";
+    }
+
+    @GetMapping("/recovers")
+    public String recoverMyBook(RecoverBookRequest recoverBookRequest, Model model ) {
+        List<Book> bookList = bookService.findMyBooks(httpSession);
+        model.addAttribute("bookList", bookList);
+        return "recoverBookForm";
+    }
+
+    @PostMapping("/api/v1/recovers")
+    public String recoverBook(RecoverBookRequest recoverBookRequest) {
+        bookService.recover(recoverBookRequest.getBookId(),httpSession);
+        return "redirect:/books/recovers";
+    }
+
 }
-         
-
-
-
-//@GetMapping("/addBook")
-//public String addBookForm(Model model) {
-//    model.addAttribute("addBookRequest", new AddBookRequest());
-//    model.addAttribute("books", bookService.getAllBooks());
-//    return "addBook";
-//}
-//
-//    @PostMapping("/api/v1/books")
-//    public String addBook(@ModelAttribute AddBookRequest addBookRequest) {
-//        bookService.save(addBookRequest);
-//        return "redirect:/addBook";
-//    }

@@ -7,16 +7,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Getter
 @Setter
-public class AddBookRequest {
-    private String bookname;
-    private User user;
-    public Book toEntity(User user){
+@NoArgsConstructor
+@AllArgsConstructor
+public class RecoverBookRequest {
+    private Long bookId;
+    public static Book toEntity(Book book) {
         return Book.builder()
-                .name(bookname).isRental(false).isRecovery(false).user(user)
+                .id(book.getId())
                 .build();
     }
 }

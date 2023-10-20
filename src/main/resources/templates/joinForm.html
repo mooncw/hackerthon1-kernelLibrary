@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+</head>
+<body>
+<div style="display: flex; justify-content: center;">
+    <form th:action="@{/user/join}" th:object="${joinRequest}" method="post" style="width: 50%; margin-top: 100px;">
+        <div>
+            <h1>회원가입</h1>
+        </div>
+        <label for="username">이름</label>
+        <input type="text" id="username" name="username" th:field="*{username}" required>
+        <br>
+        <label for="email">이메일</label>
+        <input type="email" id="email" name="email" th:field="*{email}" required>
+        <br>
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password" th:field="*{password}" required>
+        <br>
+        <label for="password_c">비밀번호 확인</label>
+        <input type="password" id="password_c" name="password_c" required>
+        <br>
+        <button id="submit_btn" type="submit" disabled>회원가입</button> <!-- Initially disabled -->
+        <br>
+        <span>모든 유효성 검사가 만족해야 회원가입 버튼이 활성화 됩니다.</span>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Function to enable/disable the submit button based on password match and empty fields
+        function checkForm() {
+            const username = $('#username').val();
+            const email = $('#email').val();
+            const password = $('#password').val();
+            const passwordCheck = $('#password_c').val();
+
+            const isEmpty = !username || !email || !password || !passwordCheck;
+            const passwordsMatch = password === passwordCheck;
+
+            $('#submit_btn').prop('disabled', isEmpty || !passwordsMatch);
+        }
+
+        $('#username, #email, #password, #password_c').keyup(checkForm);
+
+        checkForm();
+    });
+</script>
+</body>
+</html>
+
+
+
+
+

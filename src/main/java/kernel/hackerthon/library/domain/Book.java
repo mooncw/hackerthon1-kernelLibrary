@@ -1,34 +1,48 @@
 package kernel.hackerthon.library.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
-@Entity  @RequiredArgsConstructor
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@DynamicUpdate
+@Table(name = "book")
 public class Book {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name", columnDefinition = "varchar", length = 255)
     private String name;
 
-    private Long isbn;
+    @Column(name="is_rental", columnDefinition = "varchar", length = 255)
+    private Boolean isRental;
 
+    @Column(name="is_recovery", columnDefinition = "varchar", length = 255)
+    private Boolean isRecovery;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
+    private User user;
     @Builder
-    public Book(String name,Long isbn,boolean rentalStatus){
+    public Book(Long id, String name, Boolean isRental, Boolean isRecovery, User user) {
+        this.id = id;
         this.name = name;
-        this.isbn = isbn;
-        this.rentalStatus = rentalStatus;
+        this.isRental = isRental;
+        this.isRecovery = isRecovery;
+        this.user = user;
     }
-    // false = 대출가능
-    private Boolean rentalStatus;
 
-    //-- 비즈니스 로직 --//
-  
-    // 대출 상태를 토글 하는 메서드 //
-    public void changeRentalStatus(){
-        this.rentalStatus = !rentalStatus;
+    public void rentalByBook() {
+        this.isRental = true;
+    }
+
+    public void returnByBook() {
+        this.isRental = false;
     }
 }

@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout/defaultLayout}">
+<body>
+    <div layout:fragment="content">
+        <div class="alert alert-danger" role="alert">
+            권한이 없습니다! <br>
+            책을 등록 후 사용해주세요.
+        </div>
+        <a href="/books/add">책 등록하기</a>
+        <br>
+        <a href="/books">홈으로 가기</a>
+    </div>
+</body>
+</html>

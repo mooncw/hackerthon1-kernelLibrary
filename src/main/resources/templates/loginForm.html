@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+</head>
+<body>
+<div style="display: flex; justify-content: center;">
+    <form id="loginForm" th:action="@{/user/loginProcess}" method="post" style="width: 50%; margin-top: 100px;">
+        <div>
+            <h1>로그인</h1>
+        </div>
+        <label for="email">이메일</label>
+        <input type="text" id="email" name="email" required>
+        <br>
+        <label for="password">비밀번호</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button id="loginBtn">로그인</button>
+        <br>
+        <a href="/user/join">회원가입</a>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#loginBtn').on('click', function(event) {
+            event.preventDefault();
+
+            const email = $('#email').val();
+            const password = $('#password').val();
+
+            $.ajax({
+                url: '/user/loginCheck',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ email: email, password: password }),
+                success: function(response, status, xhr) {
+                    if (xhr.status === 200) {
+                        $('#loginForm').submit();
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert('해당 로그인 정보가 없습니다.');
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>
